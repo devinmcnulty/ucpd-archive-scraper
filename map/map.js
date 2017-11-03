@@ -1,3 +1,5 @@
+// from https://www.taniarascia.com/google-maps-apis-for-multiple-locations/
+
 var map;
 
 function initMap() {

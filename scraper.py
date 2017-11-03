@@ -7,7 +7,7 @@ from datetime import datetime
 from bs4 import BeautifulSoup
 
 # query the website and return html
-def scrape_url(url, file_name, csv_file):
+def scrape_url(url, file_name, writer):
     page = urllib.request.urlopen(url)
 
     # parse html
@@ -18,10 +18,7 @@ def scrape_url(url, file_name, csv_file):
 
     # make list of table rows
     trs = ucpd_table.find_all("tr")
-
-    # open a csv file with append, so old data not erased
-    writer = csv.writer(csv_file)
-        
+    
     # loops through table rows in trs
     for tr in trs:
         # list of all tds in table row
@@ -46,7 +43,8 @@ def scrape_url(url, file_name, csv_file):
     
     # if not empty (last page) scrapes next page
     if (next_href != ""):
-        scrape_url("https://incidentreports.uchicago.edu/" + next_href, file_name, csv_file)
+        scrape_url("https://incidentreports.uchicago.edu/" \
+                    + next_href, file_name, writer)
 
 def scrape(file_name, start, end):
     print("Scraping...")
@@ -68,5 +66,13 @@ def scrape(file_name, start, end):
             + str(end.year)     
             
     with open(file_name, 'a', newline='') as csv_file:
-        scrape_url(url, file_name, csv_file)
+        # csv writing tool
+        writer = csv.writer(csv_file)
+        # write headers
+        writer.writerow(["Incident","Location","Reported","Occurred",
+                        "Comments / Nature of Fire","Disposition","UCPDI#"])
+        # scrape the url, recursively scrapes "next" pages until end                
+        scrape_url(url, file_name, writer)
+        
+        
     print("Scrape complete. \n" +"Time elapsed: " + str(time.clock() - t0))

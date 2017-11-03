@@ -7,12 +7,15 @@
 
 	<link href="index.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.11.0/d3.js"></script>
-  <script>
-    d3.csv("https://raw.githubusercontent.com/devinmcnulty/ucpd-archive-scraper/master/map/source.csv", function(error, data) {
-      if (error) throw error;
-      console.log(data); // [{"Hello": "world"}, …]
-    });
-  </script>
+	<script>
+		var locations = []
+		d3.csv("https://raw.githubusercontent.com/devinmcnulty/ucpd-archive-scraper/master/data/geocoded.csv", function(error, data) {
+			if (error) throw error;
+			for (i = 0; i < data.length; i++) {
+				locations.push([data[i]["Incident"], parseFloat(data[i]["Latitude"]), parseFloat(data[i]["Longitude"])]);
+				};		 // [{"Hello": "world"}, …]
+			});
+	</script>
 </head>
 
 <body>

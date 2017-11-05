@@ -38,3 +38,26 @@ def geocode(df):
     df.to_csv('geocoded.csv')
     print("Geocoding complete. \n" +"Time elapsed: " + str(time.clock() - t0) \
             + "\n" + "API calls made:" + str(api_calls))
+
+types = {"property"  : ["theft","property", "burglary", "damage", "vandalism"],
+         "violence"  : ["battery", "robbery", "assualt", "homicide"],
+         "substance" : ["liquor", "narcotics", "dui", "cannabis"],
+         "medical"   : ["medical", "mental"]}
+         
+def parse_types(df):
+    type_col = []
+    for incident in df["Incident"]:
+        tag = np.NaN
+        for t in types:
+            for keyword in types[t]:    
+                if keyword.casefold() in incident.casefold():
+                    tag = t
+                    break
+        type_col.append(tag)
+                    
+    df["Type"] = type_col 
+        
+    
+
+          
+        

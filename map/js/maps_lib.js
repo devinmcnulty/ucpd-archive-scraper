@@ -80,7 +80,7 @@
             };
 
     //-----custom functions-----
-  
+
     //-----end of custom functions-----
 
     MapsLib.prototype.submitSearch = function (whereClause, map) {
@@ -165,12 +165,12 @@
         self.whereClause = self.locationColumn + " not equal to ''";
 
         //-----custom filters-----
-        var type_column = "'Incident'";
+        var type_column = "'Type'";
         var tempWhereClause = [];
-        if ( $("#cbType1").is(':checked')) tempWhereClause.push("Liquor Law Violation");
-        if ( $("#cbType2").is(':checked')) tempWhereClause.push("Theft");
-        if ( $("#cbType3").is(':checked')) tempWhereClause.push("Battery");
-        if ( $("#cbType4").is(':checked')) tempWhereClause.push("Other");
+        if ( $("#cbType1").is(':checked')) tempWhereClause.push("property");
+        if ( $("#cbType2").is(':checked')) tempWhereClause.push("violence");
+        if ( $("#cbType3").is(':checked')) tempWhereClause.push("substance");
+        if ( $("#cbType4").is(':checked')) tempWhereClause.push("medical");
         self.whereClause += " AND " + type_column + " IN ('" + tempWhereClause.join("','") + "')";
         //-----end of custom filters-----
 

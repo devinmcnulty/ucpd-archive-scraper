@@ -35,7 +35,6 @@ def geocode(df):
             lon.append(np.NaN)
     df['Latitude'] = lat
     df['Longitude'] = lon
-    df.to_csv('geocoded.csv')
     print("Geocoding complete. \n" +"Time elapsed: " + str(time.clock() - t0) \
             + "\n" + "API calls made:" + str(api_calls))
 
@@ -58,6 +57,9 @@ def parse_types(df):
     df["Type"] = type_col 
         
     
-
+def parse_to_csv(df, filename):
+    geocode(df)
+    parse_types(df)
+    df.to_csv(filename)
           
         

@@ -71,6 +71,15 @@
         $("#result_box").hide();
 
         //-----custom initializers-----
+        //ranges for our slider
+         var minDate = moment("Sep 1 2017"); // Jan 1st 2010
+         var maxDate = moment(); //now
+
+         //starting values
+         var startDate = moment().subtract('months', 3); //past 3 months
+         var endDate = moment(); //now
+
+         self.initializeDateSlider(minDate, maxDate, startDate, endDate, "days", 1);
 
                 //-----end of custom initializers-----
 
@@ -80,6 +89,50 @@
             };
 
     //-----custom functions-----
+    MapsLib.prototype.initializeDateSlider = function(minDate, maxDate, startDate, endDate, stepType, step) {
+    var self = this;
+    var interval = self.sliderInterval(stepType);
+
+    $('#minDate').html(minDate.format('MMM YYYY'));
+    $('#maxDate').html(maxDate.format('MMM YYYY'));
+
+    $('#startDate').html(startDate.format('YYYY/MM/DD'));
+    $('#endDate').html(endDate.format('YYYY/MM/DD'));
+
+    $('#date-range').slider({
+      range: true,
+      step: step,
+      values: [
+          Math.floor((startDate.valueOf() - minDate.valueOf()) / interval),
+          Math.floor((endDate.valueOf() - minDate.valueOf()) / interval)
+      ],
+      max: Math.floor((maxDate.valueOf() - minDate.valueOf()) / interval),
+      slide: function(event, ui) {
+          $('#startDate').html(minDate.clone().add(stepType, ui.values[0]).format('L'));
+          $('#endDate').html(minDate.clone().add(stepType, ui.values[1]).format('L'));
+      },
+      stop: function(event, ui) {
+         self.doSearch();
+        }
+    });
+  }
+
+  MapsLib.prototype.sliderInterval = function(interval) {
+    if (interval == "years")
+      return 365 * 24 * 3600 * 1000;
+    if (interval == "quarters")
+      return 3 * 30.4 * 24 * 3600 * 1000;
+    if (interval == "months") //this is very hacky. months have different day counts, so our point interval is the average - 30.4
+      return 30.4 * 24 * 3600 * 1000;
+    if (interval == "weeks")
+      return 7 * 24 * 3600 * 1000;
+    if (interval == "days")
+      return 24 * 3600 * 1000;
+    if (interval == "hours")
+      return 3600 * 1000;
+    else
+      return 1;
+  }
 
     //-----end of custom functions-----
 
@@ -96,7 +149,7 @@
                 where: whereClause
             },
             styleId: 2,
-            templateId: 2
+            templateId: 3
         });
         self.fusionTable = self.searchrecords;
         self.searchrecords.setMap(map);
@@ -171,7 +224,10 @@
         if ( $("#cbType2").is(':checked')) tempWhereClause.push("violence");
         if ( $("#cbType3").is(':checked')) tempWhereClause.push("substance");
         if ( $("#cbType4").is(':checked')) tempWhereClause.push("medical");
+        if ( $("#cbType5").is(':checked')) tempWhereClause.push("Other");
         self.whereClause += " AND " + type_column + " IN ('" + tempWhereClause.join("','") + "')";
+        self.whereClause += " AND 'Occurred' >= '" + $('#startDate').html() + "'";
+        self.whereClause += " AND 'Occurred' <= '" + $('#endDate').html() + "'";
         //-----end of custom filters-----
 
         self.getgeoCondition(address, function (geoCondition) {

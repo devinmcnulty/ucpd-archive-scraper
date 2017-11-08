@@ -65,33 +65,50 @@
               <li>
                 <label class='checkbox inline'>
                   <input type='checkbox' id='cbType1' />
-                  <span class='filter-box filter-blue'></span>
+                  <span class='filter-box filter-yellow'></span>
                   Property
                 </label>
               </li>
               <li>
                 <label class='checkbox inline'>
                   <input type='checkbox' id='cbType2' />
-                  <span class='filter-box filter-green'></span>
+                  <span class='filter-box filter-red'></span>
                   Violent
                 </label>
               </li>
               <li>
                 <label class='checkbox inline'>
                   <input type='checkbox' id='cbType3' />
-                  <span class='filter-box filter-red'></span>
+                  <span class='filter-box filter-green'></span>
                   Substance
                 </label>
               </li>
               <li>
                 <label class='checkbox inline'>
                   <input type='checkbox' id='cbType4' />
-                  <span class='filter-box filter-yellow'></span>
+                  <span class='filter-box filter-blue'></span>
                   Medical
                 </label>
               </li>
+              <li>
+                <label class='checkbox inline'>
+                  <input type='checkbox' id='cbType5' />
+                  <span class='filter-box filter-purple'></span>
+                  Other
+                </label>
+              </li>
             </ul>
-
+            <h4>
+                Date
+                <small>
+                <span id="startDate"></span>
+                -
+                <span id="endDate"></span>
+                </small>
+            </h4>
+            <div id="date-range"></div>
+            <p class='pull-left' id='minDate'></p>
+            <p class='pull-right' id='maxDate'></p>
             <br />
             <a class='btn btn-primary' id='search' href='#'>
               <i class='glyphicon glyphicon-search'></i>
@@ -140,6 +157,7 @@
             googleApiKey:       "AIzaSyCFEEPX9QZc6ohTQboMA3dAVfnDXMi75oc",
             locationColumn:     "Latitude",
             map_center:         [41.7891257,-87.6025384],
+            defaultZoom:        14,
             locationScope:      "chicago"
           });
 

@@ -47,6 +47,7 @@ types = [Type("property", ["theft","property", "burglary", "damage", "vandalism"
          Type("medical", ["medical", "mental"], "large_blue")]
          
 def parse_types(df):
+    print("Parsing types")
     type_col = []
     marker_col = []
     for incident in df["Incident"]:

@@ -76,3 +76,5 @@ def scrape(file_name, start, end):
         
         
     print("Scrape complete. \n" +"Time elapsed: " + str(time.clock() - t0))
+
+scrape(input("Save as: "), input("Start date: "), input("End date: "))

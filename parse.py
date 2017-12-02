@@ -72,4 +72,4 @@ def parse_to_csv():
     parse_types(df)
     df.to_csv(input("Output filename: "))
           
-        
+parse_to_csv()

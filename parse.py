@@ -6,10 +6,6 @@ from pygeocoder import Geocoder
 # change current directory to working directory
 os.chdir(sys.path[0])
 
-df = pd.read_csv('data/october.csv')
-
-df = df[df["Incident"] != "Void"]
-
 def cut_off_parens(s):
     try:
         return(s[0:(s.index('(') -1)])
@@ -35,31 +31,45 @@ def geocode(df):
             lon.append(np.NaN)
     df['Latitude'] = lat
     df['Longitude'] = lon
-    print("Geocoding complete. \n" +"Time elapsed: " + str(time.clock() - t0) \
+    print("Geocoding complete. \n" +"Time elapsed: " + str(int(time.clock() - t0)) \
             + "\n" + "API calls made:" + str(api_calls))
 
-types = {"property"  : ["theft","property", "burglary", "damage", "vandalism"],
-         "violence"  : ["battery", "robbery", "assualt", "homicide"],
-         "substance" : ["liquor", "narcotics", "dui", "cannabis"],
-         "medical"   : ["medical", "mental"]}
+class Type:
+    def __init__(self, name, keywords, marker):
+        self.name = name
+        self.keywords = keywords
+        self.marker = marker
+
+
+types = [Type("property", ["theft","property", "burglary", "damage", "vandalism"],"large_yellow"),
+         Type("violence", ["battery", "robbery", "assualt", "homicide"], "large_red"),
+         Type("substance", ["liquor", "narcotics", "dui", "cannabis"], "large_green"),
+         Type("medical", ["medical", "mental"], "large_blue")]
          
 def parse_types(df):
     type_col = []
+    marker_col = []
     for incident in df["Incident"]:
-        tag = np.NaN
+        tag = "Other"
+        marker = "large_purple"
         for t in types:
-            for keyword in types[t]:    
+            for keyword in t.keywords:    
                 if keyword.casefold() in incident.casefold():
-                    tag = t
+                    tag = t.name
+                    marker = t.marker
                     break
         type_col.append(tag)
+        marker_col.append(marker)
                     
     df["Type"] = type_col 
+    df["Marker"] = marker_col
         
     
-def parse_to_csv(df, filename):
+def parse_to_csv():
+    df = pd.read_csv(input("Source filename: "))
+    df = df[df["Incident"] != "Void"]
     geocode(df)
     parse_types(df)
-    df.to_csv(filename)
+    df.to_csv(input("Output filename: "))
           
         

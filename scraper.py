@@ -2,7 +2,7 @@
 ### Web scraper for UCPD indcident archive
 ### Format: scrape([filename.csv], [startdate], [enddate])
 ### Created by Devin McNulty
-import urllib, csv, time, dateutil.parser
+import sys, urllib, csv, time, dateutil.parser
 from datetime import datetime
 from bs4 import BeautifulSoup
 
@@ -78,4 +78,5 @@ def scrape(file_name, start, end):
     print("Scrape complete. \n" +"Time elapsed: " + str(time.clock() - t0))
     
 if __name__ == "__main__":
-    scrape(input("Save as: "), input("Start date: "), input("End date: "))
+    # scrape(input("Save as: "), input("Start date: "), input("End date: "))
+    scrape(sys.argv[1], sys.argv[2], sys.argv[3])

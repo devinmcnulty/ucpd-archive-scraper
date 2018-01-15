@@ -2,7 +2,7 @@
 ### Web scraper for UCPD indcident archive
 ### Format: scrape([filename.csv], [startdate], [enddate])
 ### Created by Devin McNulty
-import urllib, csv, time, dateutil.parser
+import urllib, urllib.request, csv, time, dateutil.parser
 from datetime import datetime
 from bs4 import BeautifulSoup
 

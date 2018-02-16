@@ -76,7 +76,7 @@
          var maxDate = moment(); //now
 
          //starting values
-         var startDate = moment().subtract('months', 3); //past 3 months
+         var startDate = moment().subtract('months', 5); //past 3 months
          var endDate = moment(); //now
 
          self.initializeDateSlider(minDate, maxDate, startDate, endDate, "days", 1);

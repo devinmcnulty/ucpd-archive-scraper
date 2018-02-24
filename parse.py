@@ -67,7 +67,7 @@ def parse_types(df):
         
     
 def parse_to_csv():
-    df = pd.read_csv(input("Source filename: "))
+    df = pd.read_csv(input("Source filename: "), encoding='latin-1')
     df = df[df["Incident"] != "Void"]
     geocode(df)
     parse_types(df)

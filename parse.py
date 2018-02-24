@@ -66,11 +66,13 @@ def parse_types(df):
     df["Marker"] = marker_col
         
     
-def parse_to_csv():
-    df = pd.read_csv(input("Source filename: "), encoding='latin-1')
+def parse_to_csv(source, output):
+    df = pd.read_csv(source)
     df = df[df["Incident"] != "Void"]
     geocode(df)
     parse_types(df)
-    df.to_csv(input("Output filename: "))
-          
-parse_to_csv()
+    df.to_csv(output)
+    
+if __name__ == "__main__":
+    parse_to_csv(input("Source filename: "), input("Output filename: "))
+
